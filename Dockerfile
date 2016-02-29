@@ -2,12 +2,12 @@ FROM ubuntu:14.04.4
 MAINTAINER Xiao Wang (wangxiao8611@gmail.com)
 USER root
 
+# build shadowsocks-libev from scratch
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y build-essential autoconf libtool libssl-dev git && \
+    apt-get install --no-install-recommends -y build-essential autoconf libtool libssl-dev git ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/shadowsocks/shadowsocks-libev.git
-RUN cd shadowsocks-libev
-RUN ./configure && make && make install
+RUN cd shadowsocks-libev && ./configure && make && make install && rm -rf /shadowsocks-libev
 
 #RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
 #    sed -i -e 's/# zh_CN.UTF-8 UTF-8/zh_CN.UTF-8 UTF-8/' /etc/locale.gen && \
